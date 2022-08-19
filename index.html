@@ -71,7 +71,7 @@
     }
 
     #quantity {
-      width: 10px;
+      width: 50px;
       text-align: center;
     }
 
@@ -94,7 +94,7 @@
   </style>
 </head>
 <body>
-  <div style="margin: 10px 0px;">
+  <div>
     <button class="button" role="button" onclick="randomColor()">Generate</button>
     <input type="number" id="quantity" name="quantity" placeholder="Random">
   </div>
@@ -130,8 +130,8 @@
       } else if (quantity.value < 2) {
         quantity.value = 2;
         quantity = quantity.value;
-      } else if (quantity.value > 1000) {
-        quantity.value = 1000;
+      } else if (quantity.value > 20) {
+        quantity.value = 20;
         quantity = quantity.value;
       } else {
         quantity = quantity.value;
@@ -160,10 +160,15 @@
 
     quantity = document.getElementById("quantity");
     quantity?.addEventListener("input", function(event) {
-      if (quantity.value > 1000) {
-        quantity.value = 1000;
+      if (quantity.value > 20) {
+        quantity.value = 20;
       }
-      quantity.style.width = quantity.value.length + "ch";
+      if (quantity.value != 0) {
+        quantity.style.width = quantity.value.length + "ch";
+      }
+      else {
+        quantity.style.width = "50px";
+      }
     });
   </script>
 </body>
