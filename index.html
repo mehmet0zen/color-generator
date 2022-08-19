@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Palette Generator</title>
+  <style>
+    h3 {
+      color: #ffffff;
+    }
+
+    .button {
+      background-color: #5291f7;
+      border-radius: 8px;
+      border-width: 0;
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-block;
+      font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      list-style: none;
+      margin: 0;
+      padding: 10px 12px;
+      text-align: center;
+      transition: all 200ms;
+      vertical-align: baseline;
+      white-space: nowrap;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .button:hover,
+    .button:focus {
+      color: #ffffff;
+      background-color: #fb8332;
+      box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button:active {
+      background-color: #ff80a8;
+      box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+      transform: translateY(0);
+    }
+    .hide {
+      display: none;
+    }
+
+    .rectangle:hover .hide {
+      display: table-cell;
+    }
+
+    .rectangle{
+      margin: 0.2%;
+      width: 80px;
+      height: 80px;
+      background: white;
+      display: table;
+      text-align: center;
+      border-radius: 5%;
+    }
+
+    #palette {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #quantity {
+      width: 10px;
+      text-align: center;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      padding: 1%;
+      border-radius: 5%;
+      border: 0px;
+      border-bottom: #ff80a8 2px solid;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+    }
+
+  </style>
+</head>
+<body>
+  <div style="margin: 10px 0px;">
+    <button class="button" role="button" onclick="randomColor()">Generate</button>
+    <input type="number" id="quantity" name="quantity" placeholder="Random">
+  </div>
+  <div id="palette">
+  </div>
+
+  <script>
+    function componentToHex(c) {
+      var hex = c.toString(16);
+      return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+      return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+
+    document.addEventListener('click', function(e) {
+      e = e || window.event;
+      var target = e.target || e.srcElement, text = target.textContent || target.innerText;   
+      if (text[0] == '#' && text.match(/#/g).length == 1) {
+        navigator.clipboard.writeText(text);
+        target.innerHTML = 'Copied!';
+        setTimeout(function(){
+          target.innerHTML = text;
+        }, 300);
+      }
+    }, false);
+
+    function randomColor() {
+      let quantity = document.getElementById("quantity");
+      if (quantity.value == 0 || quantity.value == null || quantity.value == '') {
+        quantity = Math.floor(Math.random() * 6) + 3;
+      } else if (quantity.value < 2) {
+        quantity.value = 2;
+        quantity = quantity.value;
+      } else if (quantity.value > 20) {
+        quantity.value = 20;
+        quantity = quantity.value;
+      } else {
+        quantity = quantity.value;
+      }
+      
+      count = 0;
+      hexes = "";
+      document.getElementById("palette").innerHTML = "";
+      while(count < quantity) {
+        createRect(count);
+        hex = rgbToHex(Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256));
+        text = document.getElementsByClassName("hex-text")[count];
+        rect = document.getElementsByClassName("rectangle")[count];
+        text.textContent = hex;
+        rect.style.backgroundColor = hex;
+        hexes += hex + " ";
+        console.log(hexes);
+        count++;
+      }
+      return hexes;
+    }
+
+    function createRect(num) {
+      document.getElementById("palette").innerHTML += `<div id='block${num}' class='rectangle'><h3 class='hide hex-text' style='vertical-align: middle;''></h3></div>`;
+    }
+
+    quantity = document.getElementById("quantity");
+    quantity?.addEventListener("input", function(event) {
+      if (quantity.value > 20) {
+        quantity.value = 20;
+      }
+      quantity.style.width = quantity.value.length + "ch";
+    });
+  </script>
+</body>
+</html>
