@@ -130,8 +130,8 @@
       } else if (quantity.value < 2) {
         quantity.value = 2;
         quantity = quantity.value;
-      } else if (quantity.value > 20) {
-        quantity.value = 20;
+      } else if (quantity.value > 1000) {
+        quantity.value = 1000;
         quantity = quantity.value;
       } else {
         quantity = quantity.value;
@@ -160,8 +160,8 @@
 
     quantity = document.getElementById("quantity");
     quantity?.addEventListener("input", function(event) {
-      if (quantity.value > 20) {
-        quantity.value = 20;
+      if (quantity.value > 1000) {
+        quantity.value = 1000;
       }
       quantity.style.width = quantity.value.length + "ch";
     });
